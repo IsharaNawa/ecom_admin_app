@@ -42,8 +42,19 @@ class _SearchScreenState extends ConsumerState<InspectAllProductsScreen> {
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 0,
-          automaticallyImplyLeading: true,
           title: const Text("Explore Products"),
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
+            child: IconButton(
+              onPressed: () {
+                Navigator.canPop(context) ? Navigator.of(context).pop() : null;
+              },
+              icon: Icon(
+                IconManager.backButtonIcon,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
         ),
         body: Column(
           children: [
@@ -70,7 +81,6 @@ class _SearchScreenState extends ConsumerState<InspectAllProductsScreen> {
                           },
                           child: Icon(IconManager.clearSearchBarIcon),
                         ),
-                  // suffixIconColor: Colors.red,
                   label: Padding(
                     padding: const EdgeInsets.only(
                       left: 8.0,

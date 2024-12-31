@@ -9,7 +9,6 @@ class EmptyBag extends StatelessWidget {
     required this.subTitle,
     required this.buttonText,
     required this.buttonFunction,
-    this.backButton = const SizedBox.shrink(),
   });
 
   final Widget mainImage;
@@ -17,11 +16,9 @@ class EmptyBag extends StatelessWidget {
   final String subTitle;
   final String buttonText;
   final void Function() buttonFunction;
-  final Widget backButton;
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Center(
         child: Column(
@@ -52,26 +49,6 @@ class EmptyBag extends StatelessWidget {
                 ),
               ),
             ),
-            ElevatedButton(
-              onPressed: buttonFunction,
-              style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(
-                  horizontal: size.width * 0.2,
-                  vertical: 20,
-                ),
-              ),
-              child: Text(
-                buttonText,
-                style: GoogleFonts.lato(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            backButton,
           ],
         ),
       ),

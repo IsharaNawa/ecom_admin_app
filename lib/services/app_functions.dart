@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:ecom_admin_app/model/product.dart';
-import 'package:ecom_admin_app/providers/cart_provider.dart';
-import 'package:ecom_admin_app/providers/wishlist_provider.dart';
 
 class AppFunctions {
   static Future<void> showErrorOrWarningOrImagePickerDialog(
@@ -103,14 +101,7 @@ class AppFunctions {
           ),
         );
     } else {
-      if (type == "cart") {
-        ref.read(cartProvider.notifier).createNewCartItem(product);
-      } else if (type == "wishlist") {
-        ref.read(wishListProvider.notifier).addToWishList(product);
-      } else if (type == "recently_viewd") {
-      } else if (type == "cartRemoval") {
-        ref.read(cartProvider.notifier).deleteFromCart(product);
-      }
+      if (type == "recently_viewd") {}
 
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()

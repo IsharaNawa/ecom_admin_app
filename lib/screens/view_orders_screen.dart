@@ -37,8 +37,7 @@ class _ViewOrdersScreenState extends State<ViewOrdersScreen> {
                 size: 200,
               ),
               mainTitle: "There are no ongoing orders!",
-              subTitle:
-                  "You dont have any ongoing orders. When you purchase some products, they will appear here.",
+              subTitle: "You dont have any ongoing orders.",
               buttonText: "Explore Products",
               buttonFunction: () {},
             ))
