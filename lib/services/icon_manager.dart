@@ -74,4 +74,5 @@ class IconManager {
   static IconData ordersIcon = HugeIcons.strokeRoundedShoppingBag01;
   static IconData addressIcon = HugeIcons.strokeRoundedLocation03;
   static IconData screenMiddleBackButtonIcon = Icons.arrow_back;
+  static IconData addNewProduct = HugeIcons.strokeRoundedShoppingBagAdd;
 }
