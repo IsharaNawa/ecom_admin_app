@@ -1,3 +1,4 @@
+import 'package:ecom_admin_app/model/category.dart';
 import 'package:ecom_admin_app/providers/theme_provider.dart';
 import 'package:ecom_admin_app/services/icon_manager.dart';
 import 'package:ecom_admin_app/widgets/form_fields.dart';
@@ -5,6 +6,7 @@ import 'package:ecom_admin_app/widgets/profile_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class AddNewProductScreen extends ConsumerStatefulWidget {
   const AddNewProductScreen({super.key});
@@ -20,6 +22,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
   String? _price;
   String? _qty;
   String? _description;
+  Category? _category;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +77,61 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                        child: DropdownButtonFormField<Category>(
+                          decoration: InputDecoration(
+                            enabledBorder: outlinedInputBorder,
+                            focusedBorder: outlinedInputBorder,
+                            errorBorder: outlinedInputBorder,
+                            focusedErrorBorder: outlinedInputBorder,
+                            label: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 8.0,
+                              ),
+                              child: Text(
+                                "Product Category",
+                                style: GoogleFonts.ubuntu(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            alignLabelWithHint: true,
+                          ),
+                          hint: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Text(
+                              "Select Product Category",
+                              style: GoogleFonts.ubuntu(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                          items: Category.CATEGORIES
+                              .map(
+                                (category) => DropdownMenuItem<Category>(
+                                  value: category,
+                                  child: Text(category.name),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            _category = value;
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'Please select a category';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: CustomFormField(
                           outlinedInputBorder: outlinedInputBorder,
                           inputLabel: "Product Title",
@@ -84,6 +142,8 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                             _productTitle = value;
                           },
                           formFieldType: FormFieldType.name,
+                          maxLen: 80,
+                          keyboardType: TextInputType.text,
                         ),
                       ),
                       const SizedBox(
@@ -110,6 +170,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                                   _price = value;
                                 },
                                 formFieldType: FormFieldType.price,
+                                keyboardType: TextInputType.number,
                               ),
                             ),
                           ),
@@ -131,6 +192,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                                   _qty = value;
                                 },
                                 formFieldType: FormFieldType.qty,
+                                keyboardType: TextInputType.number,
                               ),
                             ),
                           ),
@@ -142,6 +204,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 25.0),
                         child: TextFormField(
+                          maxLength: 1000,
                           decoration: InputDecoration(
                             enabledBorder: outlinedInputBorder,
                             focusedBorder: outlinedInputBorder,
@@ -191,7 +254,8 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                             if (_productTitle == null ||
                                 _qty == null ||
                                 _price == null ||
-                                _description == null) {
+                                _description == null ||
+                                _category == null) {
                               return;
                             }
 
