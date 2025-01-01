@@ -9,12 +9,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddUpdateProductScreen extends ConsumerStatefulWidget {
-  AddUpdateProductScreen({
+  const AddUpdateProductScreen({
     super.key,
     this.product,
   });
 
-  Product? product;
+  final Product? product;
 
   @override
   ConsumerState<AddUpdateProductScreen> createState() =>
