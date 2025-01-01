@@ -1,10 +1,11 @@
+import 'package:ecom_admin_app/model/product.dart';
+
+import 'package:ecom_admin_app/screens/inner_screens/product_details_screen.dart';
+
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'package:ecom_admin_app/model/product.dart';
-import 'package:ecom_admin_app/screens/inner_screens/product_details_screen.dart';
 
 class ProductGridWidget extends ConsumerStatefulWidget {
   const ProductGridWidget({super.key, required this.product});
@@ -50,39 +51,26 @@ class _ProductGridWidgetState extends ConsumerState<ProductGridWidget> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8.0),
-            child: Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  widget.product.productTitle,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.lato(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text(
+              widget.product.productTitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.lato(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(
-              left: 8.0,
-              top: 8.0,
-            ),
-            child: Flexible(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  "\$${widget.product.productPrice}",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.lato(
-                    fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
+            padding: const EdgeInsets.only(left: 10.0, top: 5.0),
+            child: Text(
+              "\$${widget.product.productPrice}",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.lato(
+                fontSize: 12,
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           ),

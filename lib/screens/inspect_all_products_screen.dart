@@ -12,10 +12,12 @@ class InspectAllProductsScreen extends ConsumerStatefulWidget {
   const InspectAllProductsScreen({super.key});
 
   @override
-  ConsumerState<InspectAllProductsScreen> createState() => _SearchScreenState();
+  ConsumerState<InspectAllProductsScreen> createState() =>
+      _InspectAllProductsScreenState();
 }
 
-class _SearchScreenState extends ConsumerState<InspectAllProductsScreen> {
+class _InspectAllProductsScreenState
+    extends ConsumerState<InspectAllProductsScreen> {
   late TextEditingController _textEditingController;
 
   @override
@@ -42,19 +44,16 @@ class _SearchScreenState extends ConsumerState<InspectAllProductsScreen> {
       child: Scaffold(
         appBar: AppBar(
           titleSpacing: 0,
-          title: const Text("Explore Products"),
-          leading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
-            child: IconButton(
-              onPressed: () {
-                Navigator.canPop(context) ? Navigator.of(context).pop() : null;
-              },
-              icon: Icon(
-                IconManager.backButtonIcon,
-                color: Theme.of(context).colorScheme.primary,
-              ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.canPop(context) ? Navigator.of(context).pop() : null;
+            },
+            icon: Icon(
+              IconManager.backButtonIcon,
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
+          title: const Text("Explore Products"),
         ),
         body: Column(
           children: [
@@ -81,6 +80,7 @@ class _SearchScreenState extends ConsumerState<InspectAllProductsScreen> {
                           },
                           child: Icon(IconManager.clearSearchBarIcon),
                         ),
+                  // suffixIconColor: Colors.red,
                   label: Padding(
                     padding: const EdgeInsets.only(
                       left: 8.0,
