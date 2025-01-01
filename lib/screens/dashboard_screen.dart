@@ -27,7 +27,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         onPressedFunc: () async {
           await Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const AddNewProductScreen(),
+              builder: (context) => AddNewProductScreen(),
             ),
           );
         },

@@ -1,4 +1,5 @@
 import 'package:ecom_admin_app/model/category.dart';
+import 'package:ecom_admin_app/model/product.dart';
 import 'package:ecom_admin_app/providers/theme_provider.dart';
 import 'package:ecom_admin_app/services/icon_manager.dart';
 import 'package:ecom_admin_app/widgets/form_fields.dart';
@@ -6,10 +7,14 @@ import 'package:ecom_admin_app/widgets/profile_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hugeicons/hugeicons.dart';
 
 class AddNewProductScreen extends ConsumerStatefulWidget {
-  const AddNewProductScreen({super.key});
+  AddNewProductScreen({
+    super.key,
+    this.product,
+  });
+
+  Product? product;
 
   @override
   ConsumerState<AddNewProductScreen> createState() =>
@@ -27,6 +32,16 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
   @override
   Widget build(BuildContext context) {
     bool isDarkmodeOn = ref.watch(darkModeThemeStatusProvider);
+
+    if (widget.product != null) {
+      _productTitle = widget.product!.productTitle;
+      _price = widget.product!.productPrice;
+      _qty = widget.product!.productQuantity;
+      _description = widget.product!.productDescription;
+      _category = Category.CATEGORIES.firstWhere(
+        (item) => item.name == widget.product!.productCategory,
+      );
+    }
 
     final OutlineInputBorder outlinedInputBorder = OutlineInputBorder(
       borderRadius: const BorderRadius.all(
@@ -46,7 +61,8 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Add New Product"),
+          title: Text(
+              widget.product == null ? "Add New Product" : "Update Product"),
           leading: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
             child: IconButton(
@@ -71,6 +87,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                     children: [
                       ProductImagePicker(
                         borderColor: isDarkmodeOn ? Colors.white : Colors.black,
+                        productImageUrl: widget.product?.productImage,
                       ),
                       const SizedBox(
                         height: 20,
@@ -125,6 +142,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                             }
                             return null;
                           },
+                          value: _category,
                         ),
                       ),
                       const SizedBox(
@@ -144,6 +162,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                           formFieldType: FormFieldType.name,
                           maxLen: 80,
                           keyboardType: TextInputType.text,
+                          initialValue: _productTitle,
                         ),
                       ),
                       const SizedBox(
@@ -171,6 +190,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                                 },
                                 formFieldType: FormFieldType.price,
                                 keyboardType: TextInputType.number,
+                                initialValue: _price != null ? "$_price" : null,
                               ),
                             ),
                           ),
@@ -193,6 +213,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                                 },
                                 formFieldType: FormFieldType.qty,
                                 keyboardType: TextInputType.number,
+                                initialValue: _qty,
                               ),
                             ),
                           ),
@@ -224,6 +245,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                             ),
                             alignLabelWithHint: true,
                           ),
+                          minLines: 2,
                           maxLines: 5,
                           keyboardType: TextInputType.multiline,
                           validator: (value) {
@@ -235,6 +257,7 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                           onSaved: (value) {
                             _description = value;
                           },
+                          initialValue: _description,
                         ),
                       ),
                       const SizedBox(
@@ -243,38 +266,52 @@ class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width - 60,
                         child: ElevatedButton(
-                          onPressed: () async {
-                            if (!_formKey.currentState!.validate()) {
-                              FocusScope.of(context).unfocus();
-                              return;
-                            }
+                          onPressed: widget.product == null
+                              ? () {
+                                  if (!_formKey.currentState!.validate()) {
+                                    FocusScope.of(context).unfocus();
+                                    return;
+                                  }
 
-                            _formKey.currentState!.save();
+                                  _formKey.currentState!.save();
 
-                            if (_productTitle == null ||
-                                _qty == null ||
-                                _price == null ||
-                                _description == null ||
-                                _category == null) {
-                              return;
-                            }
+                                  if (_productTitle == null ||
+                                      _qty == null ||
+                                      _price == null ||
+                                      _description == null ||
+                                      _category == null) {
+                                    return;
+                                  }
 
-                            Navigator.of(context).canPop()
-                                ? Navigator.of(context).pop()
-                                : null;
-                          },
+                                  Navigator.of(context).canPop()
+                                      ? Navigator.of(context).pop()
+                                      : null;
+                                }
+                              : () {
+                                  Navigator.of(context).canPop()
+                                      ? Navigator.of(context).pop()
+                                      : null;
+                                },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
                               vertical: 20,
                             ),
                           ),
-                          child: Text(
-                            "Submit Product",
-                            style: GoogleFonts.lato(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                          child: widget.product == null
+                              ? Text(
+                                  "Submit Product",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
+                              : Text(
+                                  "Update Product",
+                                  style: GoogleFonts.lato(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                         ),
                       ),
                     ],

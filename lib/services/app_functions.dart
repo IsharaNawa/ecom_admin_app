@@ -74,48 +74,4 @@ class AppFunctions {
       },
     );
   }
-
-  static void showListRelatedSnackBar(
-    BuildContext context,
-    Product product,
-    WidgetRef ref,
-    bool isAlreayExists,
-    String alreayExistMessage,
-    String successfullyAddedMessage,
-    String type,
-  ) {
-    if (isAlreayExists) {
-      ScaffoldMessenger.of(context)
-        ..removeCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            backgroundColor: Theme.of(context).colorScheme.error,
-            content: Text(
-              alreayExistMessage,
-              style: GoogleFonts.lato(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            duration: const Duration(milliseconds: 1500),
-          ),
-        );
-    } else {
-      if (type == "recently_viewd") {}
-
-      ScaffoldMessenger.of(context)
-        ..removeCurrentSnackBar()
-        ..showSnackBar(SnackBar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          content: Text(
-            successfullyAddedMessage,
-            style: GoogleFonts.lato(
-              fontSize: 15,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          duration: const Duration(milliseconds: 1500),
-        ));
-    }
-  }
 }

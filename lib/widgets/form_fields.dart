@@ -19,6 +19,7 @@ class CustomFormField extends StatelessWidget {
     required this.formFieldType,
     this.maxLen = 0,
     this.keyboardType,
+    this.initialValue,
   });
 
   final OutlineInputBorder outlinedInputBorder;
@@ -29,6 +30,7 @@ class CustomFormField extends StatelessWidget {
   final FormFieldType formFieldType;
   final int maxLen;
   final TextInputType? keyboardType;
+  final String? initialValue;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,8 @@ class CustomFormField extends StatelessWidget {
       },
       autocorrect: false,
       maxLength: maxLen == 0 ? null : maxLen,
-      keyboardType: keyboardType == null ? TextInputType.name : keyboardType,
+      keyboardType: keyboardType ?? TextInputType.name,
+      initialValue: initialValue ?? initialValue,
       decoration: InputDecoration(
         enabledBorder: outlinedInputBorder,
         focusedBorder: outlinedInputBorder,

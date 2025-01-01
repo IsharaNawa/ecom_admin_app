@@ -80,7 +80,6 @@ class _InspectAllProductsScreenState
                           },
                           child: Icon(IconManager.clearSearchBarIcon),
                         ),
-                  // suffixIconColor: Colors.red,
                   label: Padding(
                     padding: const EdgeInsets.only(
                       left: 8.0,

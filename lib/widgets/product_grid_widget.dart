@@ -1,6 +1,5 @@
 import 'package:ecom_admin_app/model/product.dart';
-
-import 'package:ecom_admin_app/screens/inner_screens/product_details_screen.dart';
+import 'package:ecom_admin_app/screens/add_new_product_screen.dart';
 
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _ProductGridWidgetState extends ConsumerState<ProductGridWidget> {
         await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) {
-              return ProductDetailsScreen(
+              return AddNewProductScreen(
                 product: widget.product,
               );
             },

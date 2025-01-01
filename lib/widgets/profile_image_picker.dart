@@ -8,9 +8,14 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class ProductImagePicker extends ConsumerStatefulWidget {
-  const ProductImagePicker({super.key, required this.borderColor});
+  const ProductImagePicker({
+    super.key,
+    required this.borderColor,
+    this.productImageUrl,
+  });
 
   final Color borderColor;
+  final String? productImageUrl;
 
   @override
   ConsumerState<ProductImagePicker> createState() => _ProductImagePickerState();
@@ -19,6 +24,7 @@ class ProductImagePicker extends ConsumerStatefulWidget {
 class _ProductImagePickerState extends ConsumerState<ProductImagePicker> {
   File? pickedImage;
   final ImagePicker imagePicker = ImagePicker();
+  String? _imgUrl;
 
   Future<void> getImage(ImageSource imageSource) async {
     XFile? pickedImageXFile = await imagePicker.pickImage(source: imageSource);
@@ -67,11 +73,18 @@ class _ProductImagePickerState extends ConsumerState<ProductImagePicker> {
       action2Func: () async {
         setState(() {
           pickedImage = null;
+          _imgUrl = null;
         });
         Navigator.of(context).pop();
       },
       isDarkmodeOn: isDarkmodeOn,
     );
+  }
+
+  @override
+  void initState() {
+    _imgUrl = widget.productImageUrl;
+    super.initState();
   }
 
   @override
@@ -95,7 +108,7 @@ class _ProductImagePickerState extends ConsumerState<ProductImagePicker> {
       },
     );
 
-    if (pickedImage != null) {
+    if (pickedImage != null || _imgUrl != null) {
       imageIconContent = InkWell(
         child: Material(
           elevation: 10,
@@ -134,8 +147,9 @@ class _ProductImagePickerState extends ConsumerState<ProductImagePicker> {
               borderRadius: BorderRadius.circular(25),
               child: pickedImage == null
                   ? FancyShimmerImage(
-                      imageUrl:
-                          "https://cdn.pixabay.com/photo/2018/11/13/22/01/instagram-3814084_640.png",
+                      imageUrl: _imgUrl == null
+                          ? "https://cdn.pixabay.com/photo/2018/11/13/22/01/instagram-3814084_640.png"
+                          : _imgUrl!,
                       boxFit: BoxFit.cover,
                     )
                   : Image.file(
