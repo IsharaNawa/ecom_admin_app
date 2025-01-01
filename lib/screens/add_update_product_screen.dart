@@ -1,6 +1,7 @@
 import 'package:ecom_admin_app/model/category.dart';
 import 'package:ecom_admin_app/model/product.dart';
 import 'package:ecom_admin_app/providers/theme_provider.dart';
+import 'package:ecom_admin_app/services/app_functions.dart';
 import 'package:ecom_admin_app/services/icon_manager.dart';
 import 'package:ecom_admin_app/widgets/form_fields.dart';
 import 'package:ecom_admin_app/widgets/profile_image_picker.dart';
@@ -289,9 +290,31 @@ class _AddUpdateProductScreenState
                                       : null;
                                 }
                               : () {
-                                  Navigator.of(context).canPop()
-                                      ? Navigator.of(context).pop()
-                                      : null;
+                                  AppFunctions
+                                      .showErrorOrWarningOrImagePickerDialog(
+                                    context: context,
+                                    isWarning: true,
+                                    mainTitle:
+                                        "Do you want to update this product?",
+                                    icon: Icon(IconManager.addNewProduct),
+                                    action1Text: "No",
+                                    action2Text: "Yes",
+                                    action1Func: () {
+                                      Navigator.of(context).canPop()
+                                          ? Navigator.of(context).pop()
+                                          : null;
+                                    },
+                                    action2Func: () {
+                                      Navigator.of(context).canPop()
+                                          ? Navigator.of(context).pop()
+                                          : null;
+
+                                      Navigator.of(context).canPop()
+                                          ? Navigator.of(context).pop()
+                                          : null;
+                                    },
+                                    isDarkmodeOn: isDarkmodeOn,
+                                  );
                                 },
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(
