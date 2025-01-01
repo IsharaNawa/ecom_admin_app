@@ -1,5 +1,5 @@
 import 'package:ecom_admin_app/providers/theme_provider.dart';
-import 'package:ecom_admin_app/screens/add_new_product_screen.dart';
+import 'package:ecom_admin_app/screens/add_update_product_screen.dart';
 import 'package:ecom_admin_app/screens/inspect_all_products_screen.dart';
 import 'package:ecom_admin_app/screens/view_orders_screen.dart';
 import 'package:ecom_admin_app/services/icon_manager.dart';
@@ -27,7 +27,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
         onPressedFunc: () async {
           await Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => AddNewProductScreen(),
+              builder: (context) => AddUpdateProductScreen(),
             ),
           );
         },

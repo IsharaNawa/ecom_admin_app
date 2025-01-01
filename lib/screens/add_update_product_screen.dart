@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AddNewProductScreen extends ConsumerStatefulWidget {
-  AddNewProductScreen({
+class AddUpdateProductScreen extends ConsumerStatefulWidget {
+  AddUpdateProductScreen({
     super.key,
     this.product,
   });
@@ -17,11 +17,12 @@ class AddNewProductScreen extends ConsumerStatefulWidget {
   Product? product;
 
   @override
-  ConsumerState<AddNewProductScreen> createState() =>
-      _AddNewProductScreenState();
+  ConsumerState<AddUpdateProductScreen> createState() =>
+      _AddUpdateProductScreenState();
 }
 
-class _AddNewProductScreenState extends ConsumerState<AddNewProductScreen> {
+class _AddUpdateProductScreenState
+    extends ConsumerState<AddUpdateProductScreen> {
   final _formKey = GlobalKey<FormState>();
   String? _productTitle;
   String? _price;
