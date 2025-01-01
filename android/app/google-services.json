@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "743741673255",
+    "project_id": "e-com-app-5529c",
+    "storage_bucket": "e-com-app-5529c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743741673255:android:67db9e003bfb68b7a92302",
+        "android_client_info": {
+          "package_name": "com.example.ecom_admin_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA7JxH-CrvTuQ17skmwX-LP8EUfTDHRec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743741673255:android:2b1b47f1511c5cdca92302",
+        "android_client_info": {
+          "package_name": "com.example.ecom_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA7JxH-CrvTuQ17skmwX-LP8EUfTDHRec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
