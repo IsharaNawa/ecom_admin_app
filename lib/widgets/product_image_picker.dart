@@ -12,10 +12,12 @@ class ProductImagePicker extends ConsumerStatefulWidget {
     super.key,
     required this.borderColor,
     this.productImageUrl,
+    required this.pickedImageFileGetter,
   });
 
   final Color borderColor;
   final String? productImageUrl;
+  final void Function(File? imageFile) pickedImageFileGetter;
 
   @override
   ConsumerState<ProductImagePicker> createState() => _ProductImagePickerState();
@@ -32,6 +34,8 @@ class _ProductImagePickerState extends ConsumerState<ProductImagePicker> {
     if (pickedImageXFile == null) {
       return;
     }
+
+    widget.pickedImageFileGetter(File(pickedImageXFile.path));
 
     setState(() {
       pickedImage = File(pickedImageXFile.path);
@@ -75,6 +79,7 @@ class _ProductImagePickerState extends ConsumerState<ProductImagePicker> {
           pickedImage = null;
           _imgUrl = null;
         });
+        widget.pickedImageFileGetter(null);
         Navigator.of(context).pop();
       },
       isDarkmodeOn: isDarkmodeOn,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 class Product {
@@ -9,6 +10,8 @@ class Product {
       productImage,
       productQuantity;
 
+  final Timestamp? createdAt;
+
   Product({
     required this.productId,
     required this.productTitle,
@@ -17,6 +20,7 @@ class Product {
     required this.productDescription,
     required this.productImage,
     required this.productQuantity,
+    this.createdAt,
   });
 
   static List<Product> products = [
