@@ -1,9 +1,9 @@
+import 'package:ecom_admin_app/model/product.dart';
+import 'package:ecom_admin_app/providers/product_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:ecom_admin_app/model/product.dart';
-
 class CategoryProductNotifier extends StateNotifier<List<Product>> {
-  CategoryProductNotifier() : super(Product.products);
+  CategoryProductNotifier(super.products);
 
   List<Product> getCategoryProducts(String category) {
     return state
@@ -31,5 +31,7 @@ class CategoryProductNotifier extends StateNotifier<List<Product>> {
 
 final categoryProductsProvider =
     StateNotifierProvider<CategoryProductNotifier, List<Product>>((ref) {
-  return CategoryProductNotifier();
+  List<Product> products = ref.watch(productsProvider);
+
+  return CategoryProductNotifier(products);
 });

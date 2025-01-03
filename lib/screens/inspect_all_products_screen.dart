@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:ecom_admin_app/widgets/product_grid_widget.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,6 @@ class _InspectAllProductsScreenState
 
   @override
   Widget build(BuildContext context) {
-    List<Product> allProducts = ref.watch(productsProvider);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -55,75 +55,134 @@ class _InspectAllProductsScreenState
           ),
           title: const Text("Explore Products"),
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TextField(
-                controller: _textEditingController,
-                autocorrect: false,
-                onSubmitted: (value) {
-                  setState(() {
-                    searchedProducts = ref
-                        .watch(productsProvider.notifier)
-                        .getSearchedProducts(value);
-                  });
-                },
-                decoration: InputDecoration(
-                  prefixIcon: Icon(IconManager.searhBarIcon),
-                  suffixIcon: _textEditingController.text.isEmpty
-                      ? const SizedBox.shrink()
-                      : GestureDetector(
-                          onTap: () {
-                            _textEditingController.clear();
-                            FocusScope.of(context).unfocus();
-                          },
-                          child: Icon(IconManager.clearSearchBarIcon),
+        body: StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection("products").snapshots(),
+            builder: (context, snapshot) {
+              ref.watch(productsProvider.notifier).fetchProducts();
+
+              List<Product> allProducts = [];
+
+              if (snapshot.data == null) {
+                return const Scaffold(
+                  body: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "No product in the catelog!",
                         ),
-                  label: Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8.0,
+                      ],
                     ),
-                    child: Text(
-                      "Explore Products",
-                      style: GoogleFonts.lato(
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.primary,
+                  ),
+                );
+              }
+
+              for (var element in snapshot.data!.docs) {
+                allProducts.add(Product.fromFirebase(element));
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Scaffold(
+                  body: Center(
+                    child: Column(
+                      children: [
+                        CircularProgressIndicator(
+                          color: Colors.amber,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              if (snapshot.hasError) {
+                return Scaffold(
+                  body: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          snapshot.error.toString(),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextField(
+                      controller: _textEditingController,
+                      autocorrect: false,
+                      onSubmitted: (value) {
+                        setState(() {
+                          searchedProducts = ref
+                              .watch(productsProvider.notifier)
+                              .getSearchedProducts(value);
+                        });
+                      },
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(IconManager.searhBarIcon),
+                        suffixIcon: _textEditingController.text.isEmpty
+                            ? const SizedBox.shrink()
+                            : GestureDetector(
+                                onTap: () {
+                                  _textEditingController.clear();
+                                  FocusScope.of(context).unfocus();
+                                },
+                                child: Icon(IconManager.clearSearchBarIcon),
+                              ),
+                        // suffixIconColor: Colors.red,
+                        label: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 8.0,
+                          ),
+                          child: Text(
+                            "Explore Products",
+                            style: GoogleFonts.lato(
+                              fontSize: 16,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Expanded(
-              child: _textEditingController.text.isNotEmpty &&
-                      searchedProducts.isEmpty
-                  ? const Center(
-                      child: Column(
-                        children: [
-                          Text("No Products Found!"),
-                        ],
-                      ),
-                    )
-                  : DynamicHeightGridView(
-                      builder: (context, index) {
-                        return ProductGridWidget(
-                          product: _textEditingController.text.isEmpty
-                              ? allProducts[index]
-                              : searchedProducts[index],
-                        );
-                      },
-                      itemCount: _textEditingController.text.isEmpty
-                          ? allProducts.length
-                          : searchedProducts.length,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 12,
-                      crossAxisSpacing: 12,
-                    ),
-            )
-          ],
-        ),
+                  const SizedBox(height: 10),
+                  allProducts.isEmpty
+                      ? const Text(
+                          "No Products in the Catelog! Please check later.")
+                      : Expanded(
+                          child: _textEditingController.text.isNotEmpty &&
+                                  searchedProducts.isEmpty
+                              ? const Center(
+                                  child: Column(
+                                    children: [
+                                      Text("No Products Found!"),
+                                    ],
+                                  ),
+                                )
+                              : DynamicHeightGridView(
+                                  builder: (context, index) {
+                                    return ProductGridWidget(
+                                      product:
+                                          _textEditingController.text.isEmpty
+                                              ? allProducts![index]
+                                              : searchedProducts[index],
+                                    );
+                                  },
+                                  itemCount: _textEditingController.text.isEmpty
+                                      ? allProducts!.length
+                                      : searchedProducts.length,
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 12,
+                                  crossAxisSpacing: 12,
+                                ),
+                        )
+                ],
+              );
+            }),
       ),
     );
   }

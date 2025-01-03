@@ -52,10 +52,12 @@ class _ProductImagePickerState extends ConsumerState<ProductImagePicker> {
       action2Text: "Gallery",
       action1Func: () async {
         await getImage(ImageSource.camera);
+        if (!mounted) return;
         Navigator.of(context).pop();
       },
       action2Func: () async {
         await getImage(ImageSource.gallery);
+        if (!mounted) return;
         Navigator.of(context).pop();
       },
       isDarkmodeOn: isDarkmodeOn,

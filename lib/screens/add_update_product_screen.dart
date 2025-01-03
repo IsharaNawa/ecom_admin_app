@@ -78,7 +78,7 @@ class _AddUpdateProductScreenState
       isLoading = true;
     });
 
-    final uid = Uuid().v4();
+    final uid = const Uuid().v4();
 
     final ref =
         FirebaseStorage.instance.ref().child("productsImage").child("$uid.jpg");
